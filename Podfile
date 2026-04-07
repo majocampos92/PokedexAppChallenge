@@ -8,4 +8,5 @@ target 'PokedexAppChallenge' do
   # Pods for PokedexAppChallenge
 
   pod 'Swinject'   #DI
+  pod 'Kingfisher' #Images
 end

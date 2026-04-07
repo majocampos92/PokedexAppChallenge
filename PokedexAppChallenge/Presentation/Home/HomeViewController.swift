@@ -71,18 +71,17 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         return viewModel.pokemons.count
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: PokemonCollectionViewCell.identifier,
-            for: indexPath
-        ) as! PokemonCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokemonCollectionViewCell.identifier, for: indexPath) as! PokemonCollectionViewCell
 
         let pokemon = viewModel.pokemons[indexPath.row]
+        let container = Injector.shared.container
 
+        cell.imageService = container.resolve(ImageService.self)
+        
         cell.configure(with: pokemon)
-
+        
         return cell
     }
 }

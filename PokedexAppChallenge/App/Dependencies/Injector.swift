@@ -25,6 +25,11 @@ final class Injector {
         container.register(APIClient.self) { _ in
             APIClient()
         }
+        
+        // MARK: - Services
+        container.register(ImageService.self) { _ in
+            ImageService()
+        }
 
         // MARK: - Repositories
         container.register(PokemonRepository.self) { resolver in
