@@ -1,0 +1,47 @@
+//
+//  DIContainer.swift
+//  PokedexAppChallenge
+//
+//  Created by Maria Campos on 7/4/26.
+//
+
+import Foundation
+
+import Foundation
+import Swinject
+
+final class Injector {
+
+    static let shared = Injector()
+    let container = Container()
+
+    private init() {
+        registerDependencies()
+    }
+
+    private func registerDependencies() {
+
+        // MARK: - Network
+        container.register(APIClient.self) { _ in
+            APIClient()
+        }
+
+        // MARK: - Repositories
+        container.register(PokemonRepository.self) { resolver in
+            let apiClient = resolver.resolve(APIClient.self)!
+            return PokemonRepositoryImpl(apiClient: apiClient)
+        }
+
+        // MARK: - UseCases
+        container.register(GetPokemonsUseCase.self) { resolver in
+            let repository = resolver.resolve(PokemonRepository.self)!
+            return GetPokemonsUseCase(repository: repository)
+        }
+
+        // MARK: - ViewModel
+        container.register(HomeViewModel.self) { resolver in
+            let useCase = resolver.resolve(GetPokemonsUseCase.self)!
+            return HomeViewModel(useCase: useCase)
+        }
+    }
+}
