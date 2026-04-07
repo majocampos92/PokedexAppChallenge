@@ -14,16 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let useCase = GetPokemonsUseCase()
-
-        useCase.execute(offset: 0, limit: 10) { result in
-            switch result {
-            case .success(let pokemons):
-                print(pokemons)
-            case .failure(let error):
-                print(error)
-            }
-        }
         
         return true
     }

@@ -36,7 +36,7 @@ extension NetworkError: LocalizedError {
         case .noData:
             return "No encontramos datos"
 
-        case .serverError(let code):
+        case .serverError:
             return "Error del servidor"
 
         case .invalidURL:
