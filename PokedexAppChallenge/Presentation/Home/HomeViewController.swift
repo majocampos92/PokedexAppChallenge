@@ -27,6 +27,8 @@ class HomeViewController: UIViewController {
     private func setupCollection() {
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        collectionView.setGridLayout(columns: 2)
 
         collectionView.register(
             UINib(nibName: PokemonCollectionViewCell.identifier, bundle: nil),
