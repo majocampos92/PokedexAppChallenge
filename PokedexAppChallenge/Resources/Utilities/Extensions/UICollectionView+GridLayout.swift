@@ -5,7 +5,6 @@
 //  Created by Maria Campos on 7/4/26.
 //
 
-
 import Foundation
 import UIKit
 
@@ -33,7 +32,7 @@ extension UICollectionView {
                 heightDimension: .absolute(rowHeight)
             )
             
-            let group = NSCollectionLayoutGroup.horizontal(
+            let group = NSCollectionLayoutGroup.horizontal( /// 'horizontal(layoutSize:subitem:count:)' was deprecated in iOS 16.0
                 layoutSize: groupSize,
                 subitem: item,
                 count: columns
