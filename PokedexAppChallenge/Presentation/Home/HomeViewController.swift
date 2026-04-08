@@ -42,6 +42,24 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
+    // MARK: - Button action
+    @IBAction func didTapSearchButton(_ sender: UIButton) {
+        let query = searchBar.text ?? ""
+        
+        if query.isEmpty {
+            viewModel.resetSearch()
+        } else {
+            viewModel.searchPokemon(query: query)
+        }
+    }
+    
+    @IBAction func textDidChange(_ sender: Any) {
+        let query = searchBar.text ?? ""
+        
+        if query.isEmpty {
+            viewModel.resetSearch()
+        }
+    }
 
     // MARK: - Setup viewcollection
     private func setupCollection() {
@@ -86,6 +104,8 @@ class HomeViewController: UIViewController {
     }
     
     func setupSearch() {
+        searchBar.addTarget(self, action: #selector(textDidChange(_:)), for: .editingChanged)
+        
         searchView.backgroundColor = UIColor(named: "backgroundPrimary")
         searchBar.backgroundColor = UIColor(named: "backgroundPrimary")
         
@@ -124,6 +144,12 @@ class HomeViewController: UIViewController {
                         self?.collectionView.insertItems(at: indexPaths)
                     }
                 }
+            }
+        }
+        
+        viewModel.onReloadData = { [weak self] in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
             }
         }
 
