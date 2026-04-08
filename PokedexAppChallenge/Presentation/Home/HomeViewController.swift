@@ -14,6 +14,10 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var imageHeader: UIImageView!
     @IBOutlet weak var titleHeader: UILabel!
     @IBOutlet weak var header: UIView!
+    @IBOutlet weak var searchView: UIView!
+    @IBOutlet weak var searchBar: UITextField!
+    @IBOutlet weak var searchButton: UIButton!
+    
     
     var viewModel: HomeViewModel!
 
@@ -23,9 +27,16 @@ class HomeViewController: UIViewController {
 
         setupHeader()
         setupCollection()
+        setupSearch()
         bindViewModel()
-
+        
         viewModel.fetchPokemons()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        searchButton.layer.cornerRadius = searchButton.bounds.height / 2
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,7 +85,27 @@ class HomeViewController: UIViewController {
 
         welcomeText.attributedText = attributed
     }
-
+    
+    func setupSearch() {
+        searchView.backgroundColor = UIColor(named: "backgroundPrimary")
+        searchBar.backgroundColor = UIColor(named: "backgroundPrimary")
+        
+        // MARK: - Button
+        searchButton.backgroundColor = UIColor(named: "PrimaryYellow")
+        searchButton.clipsToBounds = true
+        
+        searchButton.setImage(UIImage(named: "Research"), for: .normal)
+        searchButton.imageView?.contentMode = .scaleAspectFit //TODO: image scale, image are blurred
+        
+        // MARK: - TextField
+        searchBar.placeholder = "Buscar"
+        searchBar.backgroundColor = UIColor(named: "backgroundPrimary")
+        searchBar.layer.cornerRadius = 18
+        searchBar.layer.borderWidth = 1
+        searchBar.layer.borderColor = UIColor(named: "PrimaryBlue")?.cgColor
+        searchBar.layer.masksToBounds = true
+    }
+    
     // MARK: - Binding
     private func bindViewModel() {
 
