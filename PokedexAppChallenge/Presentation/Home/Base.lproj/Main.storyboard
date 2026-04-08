@@ -85,16 +85,17 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m2L-Ql-uV6">
                                 <rect key="frame" x="20" y="219.33333333333334" width="353" height="37.000000000000028"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hu7-0y-jgZ">
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Buscar" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hu7-0y-jgZ">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="37"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="37" id="XOy-PC-Te5"/>
                                         </constraints>
+                                        <color key="textColor" name="DarkGrey"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zs2-7s-tvZ">
-                                        <rect key="frame" x="316" y="5" width="27" height="27"/>
+                                        <rect key="frame" x="320" y="5" width="27" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="27" id="Uhy-Iu-cf6"/>
                                             <constraint firstAttribute="height" constant="27" id="Zhw-c3-aRk"/>
@@ -107,7 +108,7 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="zs2-7s-tvZ" secondAttribute="trailing" constant="10" id="CN1-ke-bp3"/>
+                                    <constraint firstAttribute="trailing" secondItem="zs2-7s-tvZ" secondAttribute="trailing" constant="6" id="CN1-ke-bp3"/>
                                     <constraint firstItem="Hu7-0y-jgZ" firstAttribute="leading" secondItem="m2L-Ql-uV6" secondAttribute="leading" id="MG3-vi-dkh"/>
                                     <constraint firstItem="zs2-7s-tvZ" firstAttribute="centerY" secondItem="m2L-Ql-uV6" secondAttribute="centerY" id="TFs-Kn-Ko1"/>
                                     <constraint firstItem="Hu7-0y-jgZ" firstAttribute="top" secondItem="m2L-Ql-uV6" secondAttribute="top" id="Vr6-kN-llR"/>
@@ -168,6 +169,9 @@
     </scenes>
     <resources>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
+        <namedColor name="DarkGrey">
+            <color red="0.25098039215686274" green="0.25098039215686274" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="backgroundPrimary">
             <color red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

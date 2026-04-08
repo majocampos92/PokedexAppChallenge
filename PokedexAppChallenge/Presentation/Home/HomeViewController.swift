@@ -18,7 +18,6 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var searchBar: UITextField!
     @IBOutlet weak var searchButton: UIButton!
     
-    
     var viewModel: HomeViewModel!
 
     // MARK: - Lifecycle
@@ -95,14 +94,23 @@ class HomeViewController: UIViewController {
         searchButton.clipsToBounds = true
         
         searchButton.setImage(UIImage(named: "Research"), for: .normal)
-        searchButton.imageView?.contentMode = .scaleAspectFit //TODO: image scale, image are blurred
+        searchButton.imageView?.contentMode = .scaleAspectFit // TODO: Fix image scale (image are blurred)
         
         // MARK: - TextField
-        searchBar.placeholder = "Buscar"
+        searchBar.placeholder = "Buscar" // TODO: Change placeholder color text
+        searchBar.font = UIFont(name: "Montserrat-Regular", size: 12)
+        
+        let leftPadding = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
+        searchBar.leftView = leftPadding
+        searchBar.leftViewMode = .always
+        
+        // TODO: Limit the text field's content area so it doesn't overlap with the button
+        
+        searchBar.textColor = UIColor(named: "DarkGrey")
         searchBar.backgroundColor = UIColor(named: "backgroundPrimary")
         searchBar.layer.cornerRadius = 18
         searchBar.layer.borderWidth = 1
-        searchBar.layer.borderColor = UIColor(named: "PrimaryBlue")?.cgColor
+        searchBar.layer.borderColor = UIColor(named: "NeutralGrey")?.cgColor
         searchBar.layer.masksToBounds = true
     }
     
