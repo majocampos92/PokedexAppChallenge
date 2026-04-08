@@ -29,6 +29,8 @@ class HomeViewController: UIViewController {
         collectionView.delegate = self
         
         collectionView.setGridLayout(columns: 2)
+        
+        collectionView.backgroundColor = UIColor(named: "backgroundPrimary")
 
         collectionView.register(
             UINib(nibName: PokemonCollectionViewCell.identifier, bundle: nil),
