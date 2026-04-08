@@ -37,9 +37,13 @@ class HomeViewController: UIViewController {
     // MARK: - Binding
     private func bindViewModel() {
 
-        viewModel.onDataUpdated = { [weak self] in
+        viewModel.onDataUpdated = { [weak self] indexPaths in
             DispatchQueue.main.async {
-                self?.collectionView.reloadData()
+                self?.collectionView.performBatchUpdates {
+                    UIView.performWithoutAnimation {
+                        self?.collectionView.insertItems(at: indexPaths)
+                    }
+                }
             }
         }
 
@@ -66,8 +70,7 @@ class HomeViewController: UIViewController {
 // MARK: - UICollectionView
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
-    func collectionView(_ collectionView: UICollectionView,
-                        numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.pokemons.count
     }
 
@@ -83,5 +86,18 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.configure(with: pokemon)
         
         return cell
+    }
+}
+
+extension HomeViewController: UIScrollViewDelegate {
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+
+        let threshold = collectionView.contentSize.height - scrollView.frame.size.height
+
+        if position > threshold - 100 {
+            viewModel.fetchPokemons()
+        }
     }
 }

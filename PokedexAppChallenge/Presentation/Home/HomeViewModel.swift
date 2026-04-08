@@ -9,24 +9,30 @@ import Foundation
 
 final class HomeViewModel {
 
+    // MARK: - Dependencies
     private let useCase: GetPokemonsUseCase
 
+    // MARK: - Data
     private(set) var pokemons: [Pokemon] = []
 
-    var onDataUpdated: (() -> Void)?
+    // MARK: - Binding
+    var onDataUpdated: (([IndexPath]) -> Void)?
     var onError: ((String) -> Void)?
 
+    // MARK: - Pagination
     private var offset = 0
     private let limit = 10
     private var isLoading = false
+    private var hasMoreData = true
 
+    // MARK: - Init
     init(useCase: GetPokemonsUseCase) {
         self.useCase = useCase
     }
 
-    // MARK: - Fetch
+    // MARK: - Fetch pokemons with pagination
     func fetchPokemons() {
-        guard !isLoading else { return }
+        guard !isLoading, hasMoreData else { return }
         isLoading = true
 
         useCase.execute(offset: offset, limit: limit) { [weak self] result in
@@ -36,9 +42,23 @@ final class HomeViewModel {
 
             switch result {
             case .success(let newPokemons):
-                self.offset += self.limit
+                if newPokemons.isEmpty {
+                    self.hasMoreData = false
+                    return
+                }
+
+                let startIndex = self.pokemons.count
+                let endIndex = startIndex + newPokemons.count
+
                 self.pokemons.append(contentsOf: newPokemons)
-                self.onDataUpdated?()
+
+                let indexPaths = (startIndex..<endIndex).map {
+                    IndexPath(item: $0, section: 0)
+                }
+
+                self.offset += self.limit
+
+                self.onDataUpdated?(indexPaths)
 
             case .failure(let error):
                 self.onError?(error.userMessage)
