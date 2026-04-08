@@ -10,6 +10,10 @@ import UIKit
 class HomeViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var welcomeText: UILabel!
+    @IBOutlet weak var imageHeader: UIImageView!
+    @IBOutlet weak var titleHeader: UILabel!
+    @IBOutlet weak var header: UIView!
     
     var viewModel: HomeViewModel!
 
@@ -17,13 +21,19 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupHeader()
         setupCollection()
         bindViewModel()
 
         viewModel.fetchPokemons()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
 
-    // MARK: - Setup
+    // MARK: - Setup viewcollection
     private func setupCollection() {
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -36,6 +46,33 @@ class HomeViewController: UIViewController {
             UINib(nibName: PokemonCollectionViewCell.identifier, bundle: nil),
             forCellWithReuseIdentifier: PokemonCollectionViewCell.identifier
         )
+    }
+    
+    // MARK: - Setup viewcollection
+    private func setupHeader() {
+        header.backgroundColor = UIColor(named: "backgroundPrimary")
+        
+        imageHeader.image = UIImage(named: "imageHeader")
+        imageHeader.contentMode = .scaleAspectFit
+        
+        titleHeader.text = "Pokédex"
+        titleHeader.font = UIFont(name: "Montserrat-Bold", size: 24)
+        titleHeader.textColor = UIColor(named: "SecondaryBlue")
+        
+        let text = "¡Hola, bienvenido!"
+
+        let attributed = NSMutableAttributedString(string: text)
+
+        let mediumFont = UIFont(name: "Montserrat-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20)
+        let boldFont = UIFont(name: "Montserrat-Bold", size: 20) ?? UIFont.boldSystemFont(ofSize: 20)
+
+        attributed.setFont(mediumFont, for: "¡Hola,", in: text)
+        attributed.setFont(boldFont, for: "bienvenido", in: text)
+        attributed.setFont(mediumFont, for: "!", in: text)
+        
+        welcomeText.textColor = UIColor(named: "PrimaryBlue")
+
+        welcomeText.attributedText = attributed
     }
 
     // MARK: - Binding
