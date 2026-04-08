@@ -28,7 +28,7 @@ final class HomeViewModel {
     private var hasMoreData = true
     
     // MARK: - Search
-    private var isSearching = false
+    var isSearching = false
 
     // MARK: - Init
     init(
