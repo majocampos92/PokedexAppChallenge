@@ -8,13 +8,19 @@
 import SwiftUI
 
 struct PokemonDetailView: View {
-    var url : String
+    @StateObject var viewModel: PokemonDetailViewModel = .make()
+    
+    var url: String
+    
     var body: some View {
         VStack {
             Text("\(url)")
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarHidden(false)
+        .onAppear {
+            viewModel.getDetail(url: url)
+        }
     }
 }
 

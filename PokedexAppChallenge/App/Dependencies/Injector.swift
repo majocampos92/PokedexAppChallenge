@@ -47,6 +47,11 @@ final class Injector {
             let repository = resolver.resolve(PokemonRepository.self)!
             return GetPokemonUseCase(repository: repository)
         }
+        
+        container.register(GetPokemonDetailUseCase.self) { resolver in
+            let repository = resolver.resolve(PokemonRepository.self)!
+            return GetPokemonDetailUseCase(repository: repository)
+        }
 
         // MARK: - ViewModel
         container.register(HomeViewModel.self) { resolver in
@@ -54,5 +59,11 @@ final class Injector {
             let searchPokemon = resolver.resolve(GetPokemonUseCase.self)!
             return HomeViewModel(getAllPokemons: getAllPokemons, searchPokemon: searchPokemon)
         }
+        
+        container.register(PokemonDetailViewModel.self) { resolver in
+            let getPokemonDetail = resolver.resolve(GetPokemonDetailUseCase.self)!
+            return PokemonDetailViewModel(getPokemonDetail: getPokemonDetail)
+        }
+        
     }
 }

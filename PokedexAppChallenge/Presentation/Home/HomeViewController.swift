@@ -231,7 +231,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let pokemon = self.viewModel.pokemons[indexPath.row]
-        let swiftUIView = PokemonDetailView(url: String(describing: pokemon.url))
+        
+        guard let url = pokemon.url else { return }
+        
+        let swiftUIView = PokemonDetailView(url: String(describing: url))
         let hostingController = UIHostingController(rootView: swiftUIView)
         
         hostingController.title = pokemon.name

@@ -10,6 +10,7 @@ import Foundation
 protocol PokemonRepository {
     func getPokemons(offset: Int, limit: Int, completion: @escaping (Result<[Pokemon], NetworkError>) -> Void)
     func getPokemonByQuery(query: String, completion: @escaping (Result<Pokemon, NetworkError>) -> Void)
+    func getPokemonDetail(url: String, completion: @escaping (Result<PokemonDetailDTO, NetworkError>) -> Void)
 }
 
 final class PokemonRepositoryImpl: PokemonRepository {
@@ -18,6 +19,41 @@ final class PokemonRepositoryImpl: PokemonRepository {
 
     init(apiClient: APIClient = APIClient()) {
         self.apiClient = apiClient
+    }
+    
+    func getPokemonDetail(url: String, completion: @escaping (Result<PokemonDetailDTO, NetworkError>) -> Void) {
+        apiClient.request(endpoint: .getPokemonDetail(url: url)) {(result: Result<PokemonDetailResponse, NetworkError>) in
+
+            switch result {
+            case .success(let detail):
+
+                let imageUrl =
+                detail.sprites?.other?.home?.frontDefault ??
+                detail.sprites?.frontDefault ?? ""
+                
+                let stats: [StatDTO] = detail.stats?.map { stat in
+                    StatDTO(
+                        name: stat.stat?.name ?? "",
+                        value: stat.baseStat ?? 0
+                    )
+                } ?? []
+
+                let pokemon = PokemonDetailDTO(
+                    id: detail.id ?? 0,
+                    name: detail.name ?? "",
+                    imageUrl: imageUrl,
+                    weight: detail.weight ?? 0,
+                    height: detail.height ?? 0,
+                    stats: stats
+                )
+                
+                completion(.success(pokemon))
+
+            case .failure(let error):
+                completion(.failure(error))
+                print("Error fetching pokemon detail:", error.localizedDescription)
+            }
+        }
     }
 
     func getPokemons(offset: Int, limit: Int, completion: @escaping (Result<[Pokemon], NetworkError>) -> Void) {
@@ -44,8 +80,7 @@ final class PokemonRepositoryImpl: PokemonRepository {
     
     func getPokemonByQuery(query: String, completion: @escaping (Result<Pokemon, NetworkError>) -> Void) {
         
-        apiClient.request(endpoint: .getPokemonByQuery(query: query)) {
-            (result: Result<PokemonResponse, NetworkError>) in
+        apiClient.request(endpoint: .getPokemonByQuery(query: query)) { (result: Result<PokemonDetailResponse, NetworkError>) in
             
             switch result {
             case .success(let response):
@@ -104,8 +139,7 @@ private extension PokemonRepositoryImpl {
 
     private func fetchPokemonDetail(url: String, completion: @escaping (Result<Pokemon, NetworkError>) -> Void) {
 
-        apiClient.request(endpoint: .getPokemonDetail(url: url)) {
-            (result: Result<PokemonDetailResponse, NetworkError>) in
+        apiClient.request(endpoint: .getPokemonDetail(url: url)) {(result: Result<PokemonDetailResponse, NetworkError>) in
 
             switch result {
             case .success(let detail):
