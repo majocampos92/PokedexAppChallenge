@@ -16,8 +16,8 @@ final class PokemonDetailViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     
     // MARK: - Dependencies
-    private let getPokemonDetail: GetPokemonDetailUseCase
-    private let getPokemonSpecie: GetPokemonSpecieUseCase
+    private let getPokemonDetailUseCase: GetPokemonDetailUseCase
+    private let getPokemonSpecieUseCase: GetPokemonSpecieUseCase
     
     // MARK: - Binding
     var onError: ((String) -> Void)?
@@ -30,8 +30,8 @@ final class PokemonDetailViewModel: ObservableObject {
         getPokemonDetail: GetPokemonDetailUseCase,
         getPokemonSpecie: GetPokemonSpecieUseCase
     ) {
-        self.getPokemonDetail = getPokemonDetail
-        self.getPokemonSpecie = getPokemonSpecie
+        self.getPokemonDetailUseCase = getPokemonDetail
+        self.getPokemonSpecieUseCase = getPokemonSpecie
     }
     
     func getDetail(url: String?) {
@@ -42,7 +42,7 @@ final class PokemonDetailViewModel: ObservableObject {
         
         isLoading = true
         
-        getPokemonDetail.execute(url: url) { [weak self] result in
+        getPokemonDetailUseCase.execute(url: url) { [weak self] result in
             guard let self = self else { return }
             
             DispatchQueue.main.async {
@@ -65,7 +65,7 @@ final class PokemonDetailViewModel: ObservableObject {
             return
         }
         
-        getPokemonSpecie.execute(url: url) { [weak self] result in
+        getPokemonSpecieUseCase.execute(url: url) { [weak self] result in
             guard let self = self else { return }
             
             DispatchQueue.main.async {
