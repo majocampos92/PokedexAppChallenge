@@ -22,7 +22,8 @@ final class ImageService {
             with: url,
             options: [
                 .transition(.fade(0.2)),
-                .cacheOriginalImage
+                .cacheOriginalImage,
+                .backgroundDecode
             ]
         )
     }

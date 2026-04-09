@@ -28,6 +28,8 @@ class PokemonCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        imagePokemon.kf.cancelDownloadTask()
+        
         imagePokemon.image = nil
         namePokemon.text = nil
         idPokemon.text = nil
