@@ -9,9 +9,8 @@ import Foundation
 
 protocol PokemonRepository {
     func getPokemons(offset: Int, limit: Int, completion: @escaping (Result<[Pokemon], NetworkError>) -> Void)
+    func getPokemonByQuery(query: String, completion: @escaping (Result<Pokemon, NetworkError>) -> Void)
 }
-
-import Foundation
 
 final class PokemonRepositoryImpl: PokemonRepository {
 
@@ -39,6 +38,34 @@ final class PokemonRepositoryImpl: PokemonRepository {
             case .failure(let error):
                 completion(.failure(error))
                 print("Error fetching pokemon:", error.localizedDescription)
+            }
+        }
+    }
+    
+    func getPokemonByQuery(query: String, completion: @escaping (Result<Pokemon, NetworkError>) -> Void) {
+        
+        apiClient.request(endpoint: .getPokemonByQuery(query: query)) {
+            (result: Result<PokemonResponse, NetworkError>) in
+            
+            switch result {
+            case .success(let response):
+                
+                let imageUrl =
+                response.sprites?.other?.home?.frontDefault ??
+                response.sprites?.frontDefault ?? ""
+
+                let pokemon = Pokemon(
+                    id: response.id ?? 0,
+                    name: response.name ?? "",
+                    imageUrl: imageUrl
+                )
+                
+                /// convert to array because into de VM use an Array pokemons
+                completion(.success(pokemon))
+                
+            case .failure(let error):
+                print("Error searching pokemon:", error.localizedDescription)
+                completion(.failure(error))
             }
         }
     }
