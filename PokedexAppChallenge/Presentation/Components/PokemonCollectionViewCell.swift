@@ -34,7 +34,7 @@ class PokemonCollectionViewCell: UICollectionViewCell {
     }
 
     func configure(with pokemon: PokemonDTO) {
-        namePokemon.text = pokemon.name
+        namePokemon.text = pokemon.name.capitalizeFirstLetter()
         namePokemon.font = UIFont(name: "Montserrat-SemiBold", size: 18)
         namePokemon.textColor = UIColor(named: "PrimaryBlue")
         
