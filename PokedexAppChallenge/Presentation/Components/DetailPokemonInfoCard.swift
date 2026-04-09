@@ -22,7 +22,7 @@ struct DetailPokemonInfoCard: View {
                     .frame(width: 24, height: 24)
                 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("\(weight.toDecimalString()) kg")
+                    Text("\(weight.toKilogramsString()) kg")
                         .font(.custom("Montserrat-Bold", size: 14))
                         .foregroundColor(.primaryBlue)
                     
@@ -43,7 +43,7 @@ struct DetailPokemonInfoCard: View {
                     .frame(width: 24, height: 24)
                 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("\(height.toDecimalString()) m")
+                    Text("\(height.toMetersString() ) m")
                         .font(.custom("Montserrat-Bold", size: 14))
                         .foregroundColor(.primaryBlue)
                     

@@ -13,6 +13,7 @@ struct PokemonDetailView: View {
     @Environment(\.dismiss) private var dismiss
     
     var url: String
+    var specieUrl: String
     
     var body: some View {
         VStack(spacing: 16.0) {
@@ -23,37 +24,42 @@ struct PokemonDetailView: View {
 
                 ScrollView(showsIndicators: false) {
                     //MARK: - IMAGE
-                    VStack (alignment: .center) {
+                    VStack (alignment: .center, spacing: 20) {
                         
                         ZStack(alignment: .top) {
                             // MARK: - CARD
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(viewModel.color)
-                                .frame(height: 175)
-                                .padding(.top, 60)
+                                .frame(height: 165)
+                                .padding(.top, 100)
                             
-                            // MARK: - IMAGE
-                            if let imageUrl = viewModel.detail?.imageUrl,
-                               let url = URL(string: imageUrl) {
+                            VStack(spacing: 0) {
+                                // MARK: - IMAGE
+                                if let imageUrl = viewModel.detail?.imageUrl,
+                                   let url = URL(string: imageUrl) {
+                                    
+                                    KFImage(url)
+                                        .placeholder {
+                                            ProgressView()
+                                                .progressViewStyle(.circular)
+                                        }
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 200, height: 200)
+                                        .offset(y: -8)
+                                }
                                 
-                                KFImage(url)
-                                    .placeholder {
-                                        ProgressView()
-                                            .progressViewStyle(.circular)
+                                // MARK: - Groups
+                                HStack(alignment: .center) {
+                                    ForEach(viewModel.specie?.eggGroups ?? [], id: \.self) { egg in
+                                        CustomPill(text: egg.capitalizeFirstLetter())
                                     }
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 225, height: 225)
-                                    .offset(y: -25)
+                                }
                             }
-                            
-                            // MARK: - TYPE BADGE
-//                            HStack(alignment: .center) {
-//                                Pill(text: "🔥 Fuego")
-//                            }
                         }
                     }
-                    .frame(height: 255)
+                    
+                    Spacer()
                     
                     //MARK: - Info
                     DetailPokemonInfoCard(
@@ -62,11 +68,15 @@ struct PokemonDetailView: View {
                     )
                     
                     //MARK: - Description
-                    Text("")
-                        .font(.system(size: 14))
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.leading)
-                        .lineSpacing(4)
+                    VStack(alignment: .leading) {
+                        Text("\(viewModel.specie?.description ?? "Descripción no disponible")")
+                            .font(.custom("Montserrat-Medium", size: 12))
+                            .foregroundColor(Color("LightGrey"))
+                            .multilineTextAlignment(.leading)
+                            .lineSpacing(4)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.vertical, 16)
+                    }
                     
                     //MARK: - Stats
                     VStack(alignment: .leading, spacing: 12) {
@@ -87,11 +97,12 @@ struct PokemonDetailView: View {
         .navigationBarHidden(true)
         .onAppear {
             viewModel.getDetail(url: url)
+            viewModel.getSpecie(url: specieUrl)
         }
     }
 }
 
 #Preview {
     let viewModel = Injector.shared.container.resolve(PokemonDetailViewModel.self)!
-    PokemonDetailView(viewModel: viewModel, url: "/")
+    PokemonDetailView(viewModel: viewModel, url: "/", specieUrl: "/")
 }

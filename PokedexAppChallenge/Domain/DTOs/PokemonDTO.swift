@@ -12,4 +12,5 @@ struct PokemonDTO {
     let name: String
     let imageUrl: String
     let url: String?
+    let specieUrl: String?
 }

@@ -9,17 +9,19 @@ import SwiftUI
 
 struct CustomPill: View {
     let text: String
+    let color: Color =  Color.random()
+    
     var body: some View {
         VStack {
             Text("\(text)")
-                .font(.system(size: 14, weight: .medium))
+                .font(.custom("Montserrat-Medium", size: 10))
                 .padding(.horizontal, 16)
                 .padding(.vertical, 6)
-                .background(Color.white)
-                .foregroundColor(.red)
+                .background(.backgroundPrimary.opacity(0.8))
+                .foregroundColor(color)
                 .clipShape(Capsule())
                 .overlay(
-                    Capsule().stroke(Color.red, lineWidth: 1)
+                    Capsule().stroke(color, lineWidth: 1)
                 )
                 .padding(.bottom, 12)
         }

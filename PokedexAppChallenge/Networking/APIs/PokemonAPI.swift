@@ -11,6 +11,7 @@ enum PokemonAPI {
     case getPokemons(offset: Int, limit: Int)
     case getPokemonDetail(url: String)
     case getPokemonByQuery(query: String)
+    case getPokemonSpeice(url: String)
 }
 
 extension PokemonAPI {
@@ -23,6 +24,8 @@ extension PokemonAPI {
             return url
         case .getPokemonByQuery(let query):
             return "\(Constants.baseUrl)pokemon/\(query)"
+        case .getPokemonSpeice(let url):
+            return url
         }
     }
 }

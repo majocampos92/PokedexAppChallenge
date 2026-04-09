@@ -11,6 +11,7 @@ protocol PokemonRepository {
     func getPokemons(offset: Int, limit: Int, completion: @escaping (Result<[PokemonDTO], NetworkError>) -> Void)
     func getPokemonByQuery(query: String, completion: @escaping (Result<PokemonDTO, NetworkError>) -> Void)
     func getPokemonDetail(url: String, completion: @escaping (Result<PokemonDetailDTO, NetworkError>) -> Void)
+    func getPokemonSpecie(url: String, completion: @escaping (Result<PokemonSpecieDTO, NetworkError>) -> Void)
 }
 
 final class PokemonRepositoryImpl: PokemonRepository {
@@ -19,6 +20,29 @@ final class PokemonRepositoryImpl: PokemonRepository {
 
     init(apiClient: APIClient = APIClient()) {
         self.apiClient = apiClient
+    }
+    
+    func getPokemonSpecie(url: String, completion: @escaping (Result<PokemonSpecieDTO, NetworkError>) -> Void) {
+        apiClient.request(endpoint: .getPokemonSpeice(url: url)) {(result: Result<PokemonSpecieResponse, NetworkError>) in
+            switch result {
+            case .success(let result):
+                
+                let description = result.flavorTextEntries?
+                    .last(where: { $0.language?.name == "es" })?
+                    .flavorText?
+                    .cleanedText() ?? ""
+                
+                let eggs: [String] = result.eggGroups?.map { $0.name ?? "" } ?? []
+
+                let specie = PokemonSpecieDTO(description: description, eggGroups: eggs)
+                
+                completion(.success(specie))
+
+            case .failure(let error):
+                completion(.failure(error))
+                print("Error fetching pokemon specie:", error.localizedDescription)
+            }
+        }
     }
     
     func getPokemonDetail(url: String, completion: @escaping (Result<PokemonDetailDTO, NetworkError>) -> Void) {
@@ -93,7 +117,8 @@ final class PokemonRepositoryImpl: PokemonRepository {
                     id: response.id ?? 0,
                     name: response.name ?? "",
                     imageUrl: imageUrl,
-                    url: "\(Constants.baseUrl)pokemon/\(query)/"
+                    url: "\(Constants.baseUrl)pokemon/\(query)/",
+                    specieUrl: response.species?.url
                 )
                 
                 completion(.success(pokemon))
@@ -152,7 +177,8 @@ private extension PokemonRepositoryImpl {
                     id: detail.id ?? 0,
                     name: detail.name ?? "",
                     imageUrl: imageUrl,
-                    url: url
+                    url: url,
+                    specieUrl: detail.species?.url
                 )
 
                 completion(.success(pokemon))

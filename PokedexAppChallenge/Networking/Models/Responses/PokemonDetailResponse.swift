@@ -18,12 +18,13 @@ struct PokemonDetailResponse: Codable {
     let weight: Int?
     let sprites: Sprites?
     let stats: [Stats]?
+    let species: Species?
 
     enum CodingKeys: String, CodingKey {
         case id, name, height, order, weight, sprites
         case baseExperience = "base_experience"
         case isDefault = "is_default"
-        case stats
+        case stats, species
     }
 }
 
@@ -129,6 +130,12 @@ struct Stats: Codable {
 
 // MARK: - Stat
 struct Stat:  Codable {
+    let name: String?
+    let url: String?
+}
+
+// MARK: - Species
+struct Species: Codable {
     let name: String?
     let url: String?
 }

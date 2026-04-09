@@ -19,4 +19,10 @@ extension String {
         guard let first = self.first else { return self }
         return first.uppercased() + self.dropFirst()
     }
+    
+    func cleanedText() -> String {
+        return self
+            .replacingOccurrences(of: "\n", with: " ")
+            .replacingOccurrences(of: "\u{000C}", with: " ")
+    }
 }
