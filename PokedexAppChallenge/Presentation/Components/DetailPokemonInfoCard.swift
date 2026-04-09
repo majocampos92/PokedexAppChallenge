@@ -24,11 +24,11 @@ struct DetailPokemonInfoCard: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("\(weight.toKilogramsString()) kg")
                         .font(.custom("Montserrat-Bold", size: 14))
-                        .foregroundColor(.primaryBlue)
+                        .foregroundColor(Color("PrimaryBlue"))
                     
                     Text("Peso")
                         .font(.custom("Montserrat-Regular", size: 10))
-                        .foregroundColor(.secondaryBlue)
+                        .foregroundColor(Color("SecondaryBlue"))
                 }
             }
             .padding(.leading, 32)
@@ -45,11 +45,11 @@ struct DetailPokemonInfoCard: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("\(height.toMetersString() ) m")
                         .font(.custom("Montserrat-Bold", size: 14))
-                        .foregroundColor(.primaryBlue)
+                        .foregroundColor(Color("PrimaryBlue"))
                     
                     Text("Altura")
                         .font(.custom("Montserrat-Regular", size: 10))
-                        .foregroundColor(.secondaryBlue)
+                        .foregroundColor(Color("SecondaryBlue"))
                 }
             }
             .padding(.leading, 16)
@@ -60,7 +60,7 @@ struct DetailPokemonInfoCard: View {
         .padding(.vertical, 8)
         .frame(maxWidth: .infinity)
         .frame(height: 58)
-        .background(Color.backgroundSecondary)
+        .background(Color("BackgroundSecondary"))
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }

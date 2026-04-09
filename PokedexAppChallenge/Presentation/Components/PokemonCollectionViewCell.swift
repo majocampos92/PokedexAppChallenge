@@ -20,7 +20,7 @@ class PokemonCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        contentView.backgroundColor = UIColor(named: "backgroundSecondary")
+        contentView.backgroundColor = UIColor(named: "BackgroundSecondary")
         contentView.layer.cornerRadius = 16
         contentView.layer.masksToBounds = true
     }

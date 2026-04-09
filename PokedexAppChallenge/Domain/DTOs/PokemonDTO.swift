@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - Pokemon
 struct PokemonDTO {
     let id: Int
     let name: String

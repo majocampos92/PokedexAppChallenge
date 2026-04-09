@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - Pokemon Detail
 struct PokemonDetailDTO {
     let id: Int
     let name: String
@@ -16,6 +17,7 @@ struct PokemonDetailDTO {
     let stats: [StatDTO]
 }
 
+// MARK: - Stat
 struct StatDTO {
     let name: String
     let value: Int

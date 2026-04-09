@@ -82,7 +82,7 @@ struct PokemonDetailView: View {
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Estadísticas")
                             .font(.custom("Montserrat-Bold", size: 20))
-                            .foregroundColor(.primaryBlue)
+                            .foregroundColor(Color("PrimaryBlue"))
                         
                         ForEach(viewModel.detail?.stats ?? [], id: \.name) { stat in
                             ProgressBarRow(name: stat.name, value: stat.value, color: viewModel.color)
@@ -92,7 +92,7 @@ struct PokemonDetailView: View {
                 .padding(.horizontal, 20)
             }
         }
-        .background(.backgroundPrimary)
+        .background(Color("BackgroundPrimary"))
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarHidden(true)
         .onAppear {

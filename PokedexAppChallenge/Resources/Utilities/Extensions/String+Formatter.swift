@@ -8,7 +8,6 @@
 import Foundation
 
 extension String {
-    
     func formattedText() -> String {
         return self
             .replacingOccurrences(of: "-", with: " ")

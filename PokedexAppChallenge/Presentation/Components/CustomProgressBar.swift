@@ -44,7 +44,7 @@ struct ProgressBarRow: View {
             Text(name.formattedText())
                 .frame(width: 120, alignment: .leading)
                 .font(.custom("Montserrat-Medium", size: 14))
-                .foregroundColor(.darkGrey)
+                .foregroundColor(Color("DarkGrey"))
             
             CustomProgressBar(value: value, color: color)
                 .frame(height: 10)
@@ -52,7 +52,7 @@ struct ProgressBarRow: View {
             Text("\(value)")
                 .frame(width: 40)
                 .font(.custom("Montserrat-Bold", size: 14))
-                .foregroundColor(.darkGrey)
+                .foregroundColor(Color("DarkGrey"))
         }
     }
 }

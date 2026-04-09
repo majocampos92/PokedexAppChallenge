@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Defines the contract for fetching Pokemon data
 protocol PokemonRepository {
     func getPokemons(offset: Int, limit: Int, completion: @escaping (Result<[PokemonDTO], NetworkError>) -> Void)
     func getPokemonByQuery(query: String, completion: @escaping (Result<PokemonDTO, NetworkError>) -> Void)
@@ -23,15 +24,19 @@ final class PokemonRepositoryImpl: PokemonRepository {
     }
     
     func getPokemonSpecie(url: String, completion: @escaping (Result<PokemonSpecieDTO, NetworkError>) -> Void) {
+        
+        // Fetch species data and map API response into domain DTO
         apiClient.request(endpoint: .getPokemonSpeice(url: url)) {(result: Result<PokemonSpecieResponse, NetworkError>) in
             switch result {
             case .success(let result):
                 
+                // Get spanish description and clean text formatting
                 let description = result.flavorTextEntries?
                     .last(where: { $0.language?.name == "es" })?
                     .flavorText?
                     .cleanedText() ?? ""
                 
+                // Extract egg groups
                 let eggs: [String] = result.eggGroups?.map { $0.name ?? "" } ?? []
 
                 let specie = PokemonSpecieDTO(description: description, eggGroups: eggs)
@@ -46,6 +51,8 @@ final class PokemonRepositoryImpl: PokemonRepository {
     }
     
     func getPokemonDetail(url: String, completion: @escaping (Result<PokemonDetailDTO, NetworkError>) -> Void) {
+        
+        // Fetch detailed Pokémon info and transform it into a DTO
         apiClient.request(endpoint: .getPokemonDetail(url: url)) {(result: Result<PokemonDetailResponse, NetworkError>) in
 
             switch result {
@@ -55,6 +62,7 @@ final class PokemonRepositoryImpl: PokemonRepository {
                 detail.sprites?.other?.home?.frontDefault ??
                 detail.sprites?.frontDefault ?? ""
                 
+                // Map stats into a DTO
                 let stats: [StatDTO] = detail.stats?.map { stat in
                     StatDTO(
                         name: stat.stat?.name ?? "",
@@ -81,18 +89,21 @@ final class PokemonRepositoryImpl: PokemonRepository {
     }
 
     func getPokemons(offset: Int, limit: Int, completion: @escaping (Result<[PokemonDTO], NetworkError>) -> Void) {
-
+        
+        // Fetch paginated list of Pokemon (basic info) for a Home List
         apiClient.request(endpoint: .getPokemons(offset: offset, limit: limit)) {
             (result: Result<PokemonListResponse, NetworkError>) in
 
             switch result {
             case .success(let response):
 
+                // If no results, return empty list
                 guard let results = response.results else {
                     completion(.success([]))
                     return
                 }
-
+                
+                // Fetch full details for each Pokemon
                 self.fetchDetails(from: results, completion: completion)
 
             case .failure(let error):
@@ -104,6 +115,7 @@ final class PokemonRepositoryImpl: PokemonRepository {
     
     func getPokemonByQuery(query: String, completion: @escaping (Result<PokemonDTO, NetworkError>) -> Void) {
         
+        // Search Pokemon by name or ID
         apiClient.request(endpoint: .getPokemonByQuery(query: query)) { (result: Result<PokemonDetailResponse, NetworkError>) in
             
             switch result {
@@ -134,15 +146,17 @@ final class PokemonRepositoryImpl: PokemonRepository {
 private extension PokemonRepositoryImpl {
 
     private func fetchDetails(from results: [PokemonResult], completion: @escaping (Result<[PokemonDTO], NetworkError>) -> Void) {
-
+        
+        // Extract all detail URLs from the list response
         let urls = results.compactMap { $0.url }
 
         var pokemons: [PokemonDTO] = []
-        let group = DispatchGroup()
+        let group = DispatchGroup() // Used to synchronize multiple async requests
 
         for url in urls {
             group.enter()
 
+            // Fetch each Pokemon detail in parallel
             fetchPokemonDetail(url: url) { result in
                 defer { group.leave() }
 
@@ -156,14 +170,17 @@ private extension PokemonRepositoryImpl {
             }
         }
 
+        // Called once all async requests are completed
         group.notify(queue: .main) {
+            // Sort results by ID to keep consistent order
             let sorted = pokemons.sorted { $0.id < $1.id }
             completion(.success(sorted))
         }
     }
 
     private func fetchPokemonDetail(url: String, completion: @escaping (Result<PokemonDTO, NetworkError>) -> Void) {
-
+        
+        // Internal helper to map detail response into a DTO
         apiClient.request(endpoint: .getPokemonDetail(url: url)) {(result: Result<PokemonDetailResponse, NetworkError>) in
 
             switch result {

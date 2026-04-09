@@ -8,6 +8,8 @@
 import Foundation
 
 class GetPokemonSpecieUseCase {
+    
+    /// Use case responsible for fetching specie Pokemon data from the repository
 
     private let repository: PokemonRepository
 

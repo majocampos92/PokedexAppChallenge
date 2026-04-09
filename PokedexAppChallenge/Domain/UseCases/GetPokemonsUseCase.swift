@@ -9,6 +9,8 @@ import Foundation
 
 class GetPokemonsUseCase {
 
+    /// Use case responsible for fetching Pokemons list data from the repository
+    
     private let repository: PokemonRepository
 
     init(repository: PokemonRepository = PokemonRepositoryImpl()) {

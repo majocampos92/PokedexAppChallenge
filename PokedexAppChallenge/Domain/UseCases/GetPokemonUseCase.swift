@@ -8,6 +8,8 @@
 import Foundation
 
 class GetPokemonUseCase {
+    
+    /// Use case responsible for searching Pokemon by query (name or id) from the repository.
 
     private let repository: PokemonRepository
 

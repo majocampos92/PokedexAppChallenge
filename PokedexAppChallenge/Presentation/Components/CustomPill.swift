@@ -17,7 +17,7 @@ struct CustomPill: View {
                 .font(.custom("Montserrat-Medium", size: 10))
                 .padding(.horizontal, 16)
                 .padding(.vertical, 6)
-                .background(.backgroundPrimary.opacity(0.8))
+                .background(Color("BackgroundPrimary").opacity(0.8))
                 .foregroundColor(color)
                 .clipShape(Capsule())
                 .overlay(

@@ -69,7 +69,7 @@ class HomeViewController: UIViewController {
         
         collectionView.setGridLayout(columns: 2, includeHeader: true)
         
-        collectionView.backgroundColor = UIColor(named: "backgroundPrimary")
+        collectionView.backgroundColor = UIColor(named: "BackgroundPrimary")
 
         collectionView.register(
             UINib(nibName: PokemonCollectionViewCell.identifier, bundle: nil),
@@ -85,9 +85,9 @@ class HomeViewController: UIViewController {
     
     // MARK: - Setup viewcollection
     private func setupHeader() {
-        header.backgroundColor = UIColor(named: "backgroundPrimary")
+        header.backgroundColor = UIColor(named: "BackgroundPrimary")
         
-        imageHeader.image = UIImage(named: "imageHeader")
+        imageHeader.image = UIImage(named: "ImageHeader")
         imageHeader.contentMode = .scaleAspectFit
         
         titleHeader.text = "Pokédex"
@@ -113,8 +113,8 @@ class HomeViewController: UIViewController {
     func setupSearch() {
         searchBar.addTarget(self, action: #selector(textDidChange(_:)), for: .editingChanged)
         
-        searchView.backgroundColor = UIColor(named: "backgroundPrimary")
-        searchBar.backgroundColor = UIColor(named: "backgroundPrimary")
+        searchView.backgroundColor = UIColor(named: "BackgroundPrimary")
+        searchBar.backgroundColor = UIColor(named: "BackgroundPrimary")
         
         // MARK: - Button
         searchButton.backgroundColor = UIColor(named: "PrimaryYellow")
@@ -134,7 +134,7 @@ class HomeViewController: UIViewController {
         // TODO: Limit the text field's content area so it doesn't overlap with the button
         
         searchBar.textColor = UIColor(named: "DarkGrey")
-        searchBar.backgroundColor = UIColor(named: "backgroundPrimary")
+        searchBar.backgroundColor = UIColor(named: "BackgroundPrimary")
         searchBar.layer.cornerRadius = 18
         searchBar.layer.borderWidth = 1
         searchBar.layer.borderColor = UIColor(named: "NeutralGrey")?.cgColor

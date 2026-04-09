@@ -7,10 +7,12 @@
 
 import Foundation
 
+// MARK: - PokemonListResponse
 struct PokemonListResponse: Decodable {
     let results: [PokemonResult]?
 }
 
+// MARK: - PokemonResult
 struct PokemonResult: Decodable {
     let name: String?
     let url: String?

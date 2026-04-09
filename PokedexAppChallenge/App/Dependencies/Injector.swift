@@ -9,6 +9,9 @@ import Foundation
 import Swinject
 
 final class Injector {
+    
+    /// Central place for Dependency Injection using Swinject.
+    /// It registers and resolves all dependencies across the app
 
     static let shared = Injector()
     let container = Container()
