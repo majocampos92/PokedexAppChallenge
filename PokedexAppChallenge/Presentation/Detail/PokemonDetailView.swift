@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PokemonDetailView: View {
-    @StateObject var viewModel: PokemonDetailViewModel = .make()
+    @StateObject var viewModel: PokemonDetailViewModel
     
     var url: String
     
@@ -25,5 +25,6 @@ struct PokemonDetailView: View {
 }
 
 #Preview {
-    PokemonDetailView(url: "/")
+    let viewModel = Injector.shared.container.resolve(PokemonDetailViewModel.self)!
+    PokemonDetailView(viewModel: viewModel, url: "/")
 }

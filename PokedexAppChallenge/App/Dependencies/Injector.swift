@@ -6,8 +6,6 @@
 //
 
 import Foundation
-
-import Foundation
 import Swinject
 
 final class Injector {
@@ -64,6 +62,5 @@ final class Injector {
             let getPokemonDetail = resolver.resolve(GetPokemonDetailUseCase.self)!
             return PokemonDetailViewModel(getPokemonDetail: getPokemonDetail)
         }
-        
     }
 }

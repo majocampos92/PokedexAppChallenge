@@ -26,12 +26,3 @@ final class PokemonDetailViewModel: ObservableObject {
         }
     }
 }
-
-// MARK: - Extensions
-extension PokemonDetailViewModel {
-    static func make() -> PokemonDetailViewModel {
-        PokemonDetailViewModel(
-            getPokemonDetail: Injector.shared.container.resolve(GetPokemonDetailUseCase.self)!
-        )
-    }
-}

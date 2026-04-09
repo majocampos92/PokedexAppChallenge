@@ -234,7 +234,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         guard let url = pokemon.url else { return }
         
-        let swiftUIView = PokemonDetailView(url: String(describing: url))
+        let viewModel = Injector.shared.container.resolve(PokemonDetailViewModel.self)!
+        
+        let swiftUIView = PokemonDetailView(viewModel: viewModel, url: String(describing: url))
         let hostingController = UIHostingController(rootView: swiftUIView)
         
         hostingController.title = pokemon.name
