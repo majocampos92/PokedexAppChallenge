@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class HomeViewController: UIViewController {
     
@@ -186,7 +187,7 @@ class HomeViewController: UIViewController {
 }
 
 // MARK: - UICollectionView
-extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.pokemons.count
@@ -226,9 +227,16 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
         return header
     }
-}
-
-extension HomeViewController: UIScrollViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let pokemon = self.viewModel.pokemons[indexPath.row]
+        let swiftUIView = PokemonDetailView(url: String(describing: pokemon.url))
+        let hostingController = UIHostingController(rootView: swiftUIView)
+        
+        hostingController.title = pokemon.name
+        navigationController?.pushViewController(hostingController, animated: true)
+    }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y

@@ -57,10 +57,10 @@ final class PokemonRepositoryImpl: PokemonRepository {
                 let pokemon = Pokemon(
                     id: response.id ?? 0,
                     name: response.name ?? "",
-                    imageUrl: imageUrl
+                    imageUrl: imageUrl,
+                    url: "NaN"
                 )
                 
-                /// convert to array because into de VM use an Array pokemons
                 completion(.success(pokemon))
                 
             case .failure(let error):
@@ -117,7 +117,8 @@ private extension PokemonRepositoryImpl {
                 let pokemon = Pokemon(
                     id: detail.id ?? 0,
                     name: detail.name ?? "",
-                    imageUrl: imageUrl
+                    imageUrl: imageUrl,
+                    url: url
                 )
 
                 completion(.success(pokemon))
