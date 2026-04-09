@@ -24,6 +24,14 @@ class PokemonCollectionViewCell: UICollectionViewCell {
         contentView.layer.cornerRadius = 16
         contentView.layer.masksToBounds = true
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imagePokemon.image = nil
+        namePokemon.text = nil
+        idPokemon.text = nil
+    }
 
     func configure(with pokemon: Pokemon) {
         namePokemon.text = pokemon.name
