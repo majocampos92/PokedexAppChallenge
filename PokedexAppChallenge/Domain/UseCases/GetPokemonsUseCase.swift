@@ -15,7 +15,7 @@ class GetPokemonsUseCase {
         self.repository = repository
     }
 
-    func execute(offset: Int, limit: Int, completion: @escaping (Result<[Pokemon], NetworkError>) -> Void) {
+    func execute(offset: Int, limit: Int, completion: @escaping (Result<[PokemonDTO], NetworkError>) -> Void) {
         repository.getPokemons(offset: offset, limit: limit, completion: completion)
     }
 }

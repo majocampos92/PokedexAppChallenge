@@ -14,7 +14,7 @@ final class HomeViewModel {
     private let searchPokemon: GetPokemonUseCase
 
     // MARK: - Data
-    private(set) var pokemons: [Pokemon] = []
+    private(set) var pokemons: [PokemonDTO] = []
 
     // MARK: - Binding
     var onReloadData: (() -> Void)?

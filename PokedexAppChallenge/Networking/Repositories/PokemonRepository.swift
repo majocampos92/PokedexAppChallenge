@@ -8,8 +8,8 @@
 import Foundation
 
 protocol PokemonRepository {
-    func getPokemons(offset: Int, limit: Int, completion: @escaping (Result<[Pokemon], NetworkError>) -> Void)
-    func getPokemonByQuery(query: String, completion: @escaping (Result<Pokemon, NetworkError>) -> Void)
+    func getPokemons(offset: Int, limit: Int, completion: @escaping (Result<[PokemonDTO], NetworkError>) -> Void)
+    func getPokemonByQuery(query: String, completion: @escaping (Result<PokemonDTO, NetworkError>) -> Void)
     func getPokemonDetail(url: String, completion: @escaping (Result<PokemonDetailDTO, NetworkError>) -> Void)
 }
 
@@ -56,7 +56,7 @@ final class PokemonRepositoryImpl: PokemonRepository {
         }
     }
 
-    func getPokemons(offset: Int, limit: Int, completion: @escaping (Result<[Pokemon], NetworkError>) -> Void) {
+    func getPokemons(offset: Int, limit: Int, completion: @escaping (Result<[PokemonDTO], NetworkError>) -> Void) {
 
         apiClient.request(endpoint: .getPokemons(offset: offset, limit: limit)) {
             (result: Result<PokemonListResponse, NetworkError>) in
@@ -78,7 +78,7 @@ final class PokemonRepositoryImpl: PokemonRepository {
         }
     }
     
-    func getPokemonByQuery(query: String, completion: @escaping (Result<Pokemon, NetworkError>) -> Void) {
+    func getPokemonByQuery(query: String, completion: @escaping (Result<PokemonDTO, NetworkError>) -> Void) {
         
         apiClient.request(endpoint: .getPokemonByQuery(query: query)) { (result: Result<PokemonDetailResponse, NetworkError>) in
             
@@ -89,7 +89,7 @@ final class PokemonRepositoryImpl: PokemonRepository {
                 response.sprites?.other?.home?.frontDefault ??
                 response.sprites?.frontDefault ?? ""
 
-                let pokemon = Pokemon(
+                let pokemon = PokemonDTO(
                     id: response.id ?? 0,
                     name: response.name ?? "",
                     imageUrl: imageUrl,
@@ -108,11 +108,11 @@ final class PokemonRepositoryImpl: PokemonRepository {
 
 private extension PokemonRepositoryImpl {
 
-    private func fetchDetails(from results: [PokemonResult], completion: @escaping (Result<[Pokemon], NetworkError>) -> Void) {
+    private func fetchDetails(from results: [PokemonResult], completion: @escaping (Result<[PokemonDTO], NetworkError>) -> Void) {
 
         let urls = results.compactMap { $0.url }
 
-        var pokemons: [Pokemon] = []
+        var pokemons: [PokemonDTO] = []
         let group = DispatchGroup()
 
         for url in urls {
@@ -137,7 +137,7 @@ private extension PokemonRepositoryImpl {
         }
     }
 
-    private func fetchPokemonDetail(url: String, completion: @escaping (Result<Pokemon, NetworkError>) -> Void) {
+    private func fetchPokemonDetail(url: String, completion: @escaping (Result<PokemonDTO, NetworkError>) -> Void) {
 
         apiClient.request(endpoint: .getPokemonDetail(url: url)) {(result: Result<PokemonDetailResponse, NetworkError>) in
 
@@ -148,7 +148,7 @@ private extension PokemonRepositoryImpl {
                 detail.sprites?.other?.home?.frontDefault ??
                 detail.sprites?.frontDefault ?? ""
 
-                let pokemon = Pokemon(
+                let pokemon = PokemonDTO(
                     id: detail.id ?? 0,
                     name: detail.name ?? "",
                     imageUrl: imageUrl,

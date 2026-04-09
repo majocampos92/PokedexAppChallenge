@@ -33,7 +33,7 @@ class PokemonCollectionViewCell: UICollectionViewCell {
         idPokemon.text = nil
     }
 
-    func configure(with pokemon: Pokemon) {
+    func configure(with pokemon: PokemonDTO) {
         namePokemon.text = pokemon.name
         namePokemon.font = UIFont(name: "Montserrat-SemiBold", size: 18)
         namePokemon.textColor = UIColor(named: "PrimaryBlue")

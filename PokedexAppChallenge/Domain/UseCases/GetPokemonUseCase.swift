@@ -15,7 +15,7 @@ class GetPokemonUseCase {
         self.repository = repository
     }
 
-    func execute(query: String, completion: @escaping (Result<Pokemon, NetworkError>) -> Void) {
+    func execute(query: String, completion: @escaping (Result<PokemonDTO, NetworkError>) -> Void) {
         repository.getPokemonByQuery(query: query, completion: completion)
     }
 }
