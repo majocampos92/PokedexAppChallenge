@@ -159,7 +159,9 @@ class HomeViewController: UIViewController {
             DispatchQueue.main.async {
                 self.collectionView.setGridLayout(columns: 2, includeHeader: true, headerHeight: (self.viewModel.isSearching ? 40 : 0))
                 
-                self.collectionView.reloadData()
+                self.collectionView.performBatchUpdates({
+                            self.collectionView.reloadSections(IndexSet(integer: 0))
+                        })
             }
         }
 
