@@ -42,19 +42,43 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
+    // MARK: - Button action
+    @IBAction func didTapSearchButton(_ sender: UIButton) {
+        let query = searchBar.text ?? ""
+        
+        if query.isEmpty {
+            viewModel.resetSearch()
+        } else {
+            viewModel.searchPokemon(query: query)
+        }
+    }
+    
+    @IBAction func textDidChange(_ sender: Any) {
+        let query = searchBar.text ?? ""
+        
+        if query.isEmpty {
+            viewModel.resetSearch()
+        }
+    }
 
     // MARK: - Setup viewcollection
     private func setupCollection() {
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        collectionView.setGridLayout(columns: 2)
+        collectionView.setGridLayout(columns: 2, includeHeader: true)
         
         collectionView.backgroundColor = UIColor(named: "backgroundPrimary")
 
         collectionView.register(
             UINib(nibName: PokemonCollectionViewCell.identifier, bundle: nil),
             forCellWithReuseIdentifier: PokemonCollectionViewCell.identifier
+        )
+        
+        collectionView.register(
+            UINib(nibName: HeaderPokemonCollectionReusableView.identifier, bundle: nil),
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: HeaderPokemonCollectionReusableView.identifier
         )
     }
     
@@ -86,6 +110,8 @@ class HomeViewController: UIViewController {
     }
     
     func setupSearch() {
+        searchBar.addTarget(self, action: #selector(textDidChange(_:)), for: .editingChanged)
+        
         searchView.backgroundColor = UIColor(named: "backgroundPrimary")
         searchBar.backgroundColor = UIColor(named: "backgroundPrimary")
         
@@ -124,6 +150,18 @@ class HomeViewController: UIViewController {
                         self?.collectionView.insertItems(at: indexPaths)
                     }
                 }
+            }
+        }
+        
+        viewModel.onReloadData = { [weak self] in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                self.collectionView.setGridLayout(columns: 2, includeHeader: true, headerHeight: (self.viewModel.isSearching ? 40 : 0))
+                
+                self.collectionView.performBatchUpdates({
+                            self.collectionView.reloadSections(IndexSet(integer: 0))
+                        })
             }
         }
 
@@ -166,6 +204,27 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.configure(with: pokemon)
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        guard kind == UICollectionView.elementKindSectionHeader else {
+            return UICollectionReusableView()
+        }
+        
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderPokemonCollectionReusableView.identifier, for: indexPath) as! HeaderPokemonCollectionReusableView
+
+        if viewModel.isSearching {
+            if viewModel.pokemons.isEmpty {
+                header.configure(text: "No se encontraron resultados")
+            } else {
+                header.configure(text: "Resultado de búsqueda")
+            }
+        } else {
+            header.configure(text: "")
+        }
+
+        return header
     }
 }
 

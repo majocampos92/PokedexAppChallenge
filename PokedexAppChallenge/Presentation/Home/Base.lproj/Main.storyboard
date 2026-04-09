@@ -93,6 +93,9 @@
                                         <color key="textColor" name="DarkGrey"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="textDidChange:" destination="BYZ-38-t0r" eventType="editingChanged" id="bOQ-8I-dOW"/>
+                                        </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zs2-7s-tvZ">
                                         <rect key="frame" x="320" y="5" width="27" height="27"/>
@@ -104,6 +107,9 @@
                                         <buttonConfiguration key="configuration" style="plain" imagePadding="8">
                                             <imageReference key="image" image="magnifyingglass" catalog="system" symbolScale="small"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="didTapSearchButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="d9K-oE-DhO"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
