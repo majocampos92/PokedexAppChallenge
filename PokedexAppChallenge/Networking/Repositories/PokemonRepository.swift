@@ -93,7 +93,7 @@ final class PokemonRepositoryImpl: PokemonRepository {
                     id: response.id ?? 0,
                     name: response.name ?? "",
                     imageUrl: imageUrl,
-                    url: "NaN"
+                    url: "\(Constants.baseUrl)pokemon/\(query)/"
                 )
                 
                 completion(.success(pokemon))
