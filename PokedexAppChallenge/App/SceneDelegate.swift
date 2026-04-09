@@ -14,14 +14,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-
+        
+        /// Sets up the initial screen of the app by creating the window
+        /// loading the HomeViewController, injecting its ViewModel using DI, and embedding it in a navigation controller
+        
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let window = UIWindow(windowScene: windowScene)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
 
-        // Inject ViewModel
+        /// Inject ViewModel 
         let container = Injector.shared.container
         viewController.viewModel = container.resolve(HomeViewModel.self)!
 

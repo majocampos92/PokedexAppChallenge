@@ -8,6 +8,8 @@
 import Foundation
 
 class GetPokemonUseCase {
+    
+    /// Use case responsible for searching Pokemon by query (name or id) from the repository.
 
     private let repository: PokemonRepository
 
@@ -15,7 +17,7 @@ class GetPokemonUseCase {
         self.repository = repository
     }
 
-    func execute(query: String, completion: @escaping (Result<Pokemon, NetworkError>) -> Void) {
+    func execute(query: String, completion: @escaping (Result<PokemonDTO, NetworkError>) -> Void) {
         repository.getPokemonByQuery(query: query, completion: completion)
     }
 }

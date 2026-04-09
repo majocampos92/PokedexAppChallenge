@@ -10,11 +10,11 @@ import Foundation
 final class HomeViewModel {
 
     // MARK: - Dependencies
-    private let getAllPokemons: GetPokemonsUseCase
-    private let searchPokemon: GetPokemonUseCase
+    private let getAllPokemonsUseCase: GetPokemonsUseCase
+    private let searchPokemonUseCase: GetPokemonUseCase
 
     // MARK: - Data
-    private(set) var pokemons: [Pokemon] = []
+    private(set) var pokemons: [PokemonDTO] = []
 
     // MARK: - Binding
     var onReloadData: (() -> Void)?
@@ -35,8 +35,8 @@ final class HomeViewModel {
         getAllPokemons: GetPokemonsUseCase,
         searchPokemon: GetPokemonUseCase
     ) {
-        self.getAllPokemons = getAllPokemons
-        self.searchPokemon = searchPokemon
+        self.getAllPokemonsUseCase = getAllPokemons
+        self.searchPokemonUseCase = searchPokemon
     }
 
     // MARK: - Fetch pokemons with pagination
@@ -44,7 +44,7 @@ final class HomeViewModel {
         guard !isLoading, hasMoreData, !isSearching else { return }
         isLoading = true
 
-        getAllPokemons.execute(offset: offset, limit: limit) { [weak self] result in
+        getAllPokemonsUseCase.execute(offset: offset, limit: limit) { [weak self] result in
             guard let self = self else { return }
 
             self.isLoading = false
@@ -86,7 +86,7 @@ final class HomeViewModel {
         guard !isLoading else { return }
         isLoading = true
 
-        searchPokemon.execute(query: trimmedQuery.lowercased()) { [weak self] result in
+        searchPokemonUseCase.execute(query: trimmedQuery.lowercased()) { [weak self] result in
             guard let self = self else { return }
 
             self.isLoading = false

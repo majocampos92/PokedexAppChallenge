@@ -5,6 +5,8 @@
 //  Created by Maria Campos on 7/4/26.
 //
 
+import Foundation
+
 // MARK: - PokemonDetail
 struct PokemonDetailResponse: Codable {
     let id: Int?
@@ -15,11 +17,14 @@ struct PokemonDetailResponse: Codable {
     let order: Int?
     let weight: Int?
     let sprites: Sprites?
+    let stats: [Stats]?
+    let species: Species?
 
     enum CodingKeys: String, CodingKey {
         case id, name, height, order, weight, sprites
         case baseExperience = "base_experience"
         case isDefault = "is_default"
+        case stats, species
     }
 }
 
@@ -112,3 +117,25 @@ struct Icons: Codable {
     }
 }
 
+// MARK: - Stats
+struct Stats: Codable {
+    let baseStat, effort: Int?
+    let stat: Stat?
+
+    enum CodingKeys: String, CodingKey {
+        case baseStat = "base_stat"
+        case effort, stat
+    }
+}
+
+// MARK: - Stat
+struct Stat:  Codable {
+    let name: String?
+    let url: String?
+}
+
+// MARK: - Species
+struct Species: Codable {
+    let name: String?
+    let url: String?
+}

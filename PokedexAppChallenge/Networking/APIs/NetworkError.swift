@@ -16,6 +16,10 @@ enum NetworkError: Error {
 }
 
 extension NetworkError: LocalizedError {
+    
+    /// Represents possible network errors and maps them to readable messages
+    /// Including developer-friendly descriptions and user messages
+    
     var errorDescription: String? {
         switch self {
         case .invalidURL:

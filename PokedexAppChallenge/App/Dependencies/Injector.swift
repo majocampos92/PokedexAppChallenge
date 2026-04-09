@@ -6,11 +6,12 @@
 //
 
 import Foundation
-
-import Foundation
 import Swinject
 
 final class Injector {
+    
+    /// Central place for Dependency Injection using Swinject.
+    /// It registers and resolves all dependencies across the app
 
     static let shared = Injector()
     let container = Container()
@@ -47,12 +48,28 @@ final class Injector {
             let repository = resolver.resolve(PokemonRepository.self)!
             return GetPokemonUseCase(repository: repository)
         }
+        
+        container.register(GetPokemonDetailUseCase.self) { resolver in
+            let repository = resolver.resolve(PokemonRepository.self)!
+            return GetPokemonDetailUseCase(repository: repository)
+        }
+        
+        container.register(GetPokemonSpecieUseCase.self) { resolver in
+            let repository = resolver.resolve(PokemonRepository.self)!
+            return GetPokemonSpecieUseCase(repository: repository)
+        }
 
         // MARK: - ViewModel
         container.register(HomeViewModel.self) { resolver in
             let getAllPokemons = resolver.resolve(GetPokemonsUseCase.self)!
             let searchPokemon = resolver.resolve(GetPokemonUseCase.self)!
             return HomeViewModel(getAllPokemons: getAllPokemons, searchPokemon: searchPokemon)
+        }
+        
+        container.register(PokemonDetailViewModel.self) { resolver in
+            let getPokemonDetail = resolver.resolve(GetPokemonDetailUseCase.self)!
+            let getPokemonSpecie = resolver.resolve(GetPokemonSpecieUseCase.self)!
+            return PokemonDetailViewModel(getPokemonDetail: getPokemonDetail, getPokemonSpecie: getPokemonSpecie)
         }
     }
 }

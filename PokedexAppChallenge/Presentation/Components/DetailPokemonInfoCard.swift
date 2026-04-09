@@ -1,0 +1,66 @@
+//
+//  DetailPokemonInfoCard.swift
+//  PokedexAppChallenge
+//
+//  Created by Maria Campos on 9/4/26.
+//
+
+import SwiftUI
+
+struct DetailPokemonInfoCard: View {
+    let weight: Int
+    let height: Int
+    
+    var body: some View {
+        HStack(alignment: .center) {
+            
+            Spacer()
+                
+            HStack(spacing: 8) {
+                Image("WeightScale")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("\(weight.toKilogramsString()) kg")
+                        .font(.custom("Montserrat-Bold", size: 14))
+                        .foregroundColor(Color("PrimaryBlue"))
+                    
+                    Text("Peso")
+                        .font(.custom("Montserrat-Regular", size: 10))
+                        .foregroundColor(Color("SecondaryBlue"))
+                }
+            }
+            .padding(.leading, 32)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            
+            Divider()
+                
+            HStack(spacing: 8) {
+                Image("Ruler")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("\(height.toMetersString() ) m")
+                        .font(.custom("Montserrat-Bold", size: 14))
+                        .foregroundColor(Color("PrimaryBlue"))
+                    
+                    Text("Altura")
+                        .font(.custom("Montserrat-Regular", size: 10))
+                        .foregroundColor(Color("SecondaryBlue"))
+                }
+            }
+            .padding(.leading, 16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Spacer()
+        }
+        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity)
+        .frame(height: 58)
+        .background(Color("BackgroundSecondary"))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+}

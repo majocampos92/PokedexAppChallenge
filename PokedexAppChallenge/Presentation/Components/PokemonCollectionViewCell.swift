@@ -20,7 +20,7 @@ class PokemonCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        contentView.backgroundColor = UIColor(named: "backgroundSecondary")
+        contentView.backgroundColor = UIColor(named: "BackgroundSecondary")
         contentView.layer.cornerRadius = 16
         contentView.layer.masksToBounds = true
     }
@@ -28,13 +28,15 @@ class PokemonCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        imagePokemon.kf.cancelDownloadTask()
+        
         imagePokemon.image = nil
         namePokemon.text = nil
         idPokemon.text = nil
     }
 
-    func configure(with pokemon: Pokemon) {
-        namePokemon.text = pokemon.name
+    func configure(with pokemon: PokemonDTO) {
+        namePokemon.text = pokemon.name.capitalizeFirstLetter()
         namePokemon.font = UIFont(name: "Montserrat-SemiBold", size: 18)
         namePokemon.textColor = UIColor(named: "PrimaryBlue")
         
